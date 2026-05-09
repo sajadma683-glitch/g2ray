@@ -1,27 +1,30 @@
 {
-  "name": "G2Ray - VLESS on GitHub Codespaces",
-  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
-  "hostRequirements": {
-    "cpus": 1,
-    "memory": "4gb"
-  },
-  "forwardPorts": [443],
-  "portsAttributes": {
-    "443": {
-      "label": "VLESS Proxy",
-      "onAutoForward": "ignore",
-      "visibility": "public"
-    }
-  },
-  "postCreateCommand": "bash .devcontainer/setup.sh",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-vscode-remote.remote-containers"
-      ]
-    }
+  "name": "ghtun",
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": "."
   },
   "features": {
-    "ghcr.io/devcontainers/features/sshd:1": {}
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+  "postAttachCommand": {
+    "public": "gh codespace ports visibility 443:public -c $CODESPACE_NAME",
+    "xray": "sudo /usr/local/bin/xray -c /etc/config.json"
+  },
+  "portsAttributes": {
+    "443": {
+      "label": "xray",
+      "protocol": "http",
+      "onAutoForward": "silent"
+    }
+  },
+  "forwardPorts": [443],
+  "hostRequirements": {
+    "cpus": 1
   }
 }
