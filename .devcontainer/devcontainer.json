@@ -1,7 +1,7 @@
 {
-  "name": "ghtun",
+  "name": "pixel-net-6e956d",
   "build": {
-    "dockerfile": "./Dockerfile",
+    "dockerfile": "Dockerfile",
     "context": "."
   },
   "features": {
@@ -12,18 +12,17 @@
       "version": "latest"
     }
   },
-  "postAttachCommand": {
-    "public": "gh codespace ports visibility 443:public -c $CODESPACE_NAME",
-    "xray": "sudo /usr/local/bin/xray -c /etc/config.json"
-  },
+  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && bash /usr/local/bin/start.sh",
   "portsAttributes": {
     "443": {
-      "label": "xray",
+      "label": "pixel-net-6e956d",
       "protocol": "http",
       "onAutoForward": "silent"
     }
   },
-  "forwardPorts": [443],
+  "forwardPorts": [
+    443
+  ],
   "hostRequirements": {
     "cpus": 1
   }
